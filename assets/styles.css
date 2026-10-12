@@ -398,3 +398,16 @@ td .icon { color: var(--sienna); }
   .detail-block { padding: 22px; }
   .chip:not(.chip--round) { flex: 1 1 100%; }
 }
+
+/* Single-page layout */
+section[id] { scroll-margin-top: 80px; }
+.footer-grid--three { grid-template-columns: 1.6fr 1fr 1.2fr; }
+@media (max-width: 1180px) and (min-width: 861px) {
+  .nav { gap: 18px; font-size: 14px; }
+  .header-actions .btn { padding: 10px 16px; font-size: 14px; }
+}
+@media (max-width: 1024px) and (min-width: 861px) {
+  .header-actions .btn { display: none; }
+}
+@media (max-width: 1024px) { .footer-grid--three { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .footer-grid--three { grid-template-columns: 1fr; } }

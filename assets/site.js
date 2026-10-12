@@ -75,3 +75,29 @@ document.querySelectorAll('form[data-enquiry]').forEach((form) => {
 
 // Footer year
 document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
+
+// Single page: close the mobile menu after a tap, highlight the section in view
+document.querySelectorAll('.nav a[href^="#"]').forEach((link) => {
+  link.addEventListener('click', (event) => {
+    if (!nav || !nav.classList.contains('open')) return;
+    // Hiding the menu cancels the browser's jump, so close it first and scroll ourselves
+    event.preventDefault();
+    toggle.click();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) {
+      history.pushState(null, '', link.getAttribute('href'));
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+const navLinks = [...document.querySelectorAll('.nav a[href^="#"]')];
+const tracked = navLinks.map((a) => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+if ('IntersectionObserver' in window && tracked.length) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      navLinks.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  tracked.forEach((section) => observer.observe(section));
+}
